@@ -10,9 +10,12 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    qmlRegisterType<ScreenShotProxy>("ScreenShotLib", 1, 0, "ScreenShotProxy");
+    //qmlRegisterType<ScreenShotProxy>("ScreenShotLib", 1, 0, "ScreenShotProxy");
 
-    qmlRegisterType<QMLThread>("ScreenShotLib", 1, 0, "QMLThread");
+    //qmlRegisterType<QMLThread>("ScreenShotLib", 1, 0, "QMLThread");
+
+    qmlRegisterType<Screenshot>("ScreenshotLib", 1, 1, "Screenshot");
+    qmlRegisterType<ScreenShotProxy>("ScreenshotLib", 1, 1, "ScreenShotProxy");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));

@@ -5,8 +5,13 @@
 
 //#include <Qti
 
+void ScreenShotProxy::stop()
+{
+    m_screenShot->setContinue(false);
+}
+
 ScreenShotProxy::ScreenShotProxy(QObject *parent):
-    Screenshot(parent)
+    ScreenshotInterface(parent)
 {
     m_screenShot = new Screenshot;
     m_thread = new QThread;
@@ -26,8 +31,8 @@ ScreenShotProxy::ScreenShotProxy(QObject *parent):
         if (qobjectsignals.contains(str))
             continue;
 
-        qDebug() << QObject::connect(m_screenShot, QString("2" + str).toLocal8Bit().data(), qFlagLocation(QString("2" + str).toLocal8Bit().data()))
-                 << QString("2" + str).toLocal8Bit().data();
+        qDebug() << "signals" << QObject::connect(m_screenShot, QString("2" + str).toLocal8Bit().data(), qFlagLocation(QString("2" + str).toLocal8Bit().data()))
+                 << QString("2" + str);
 
     }
 
@@ -43,12 +48,13 @@ ScreenShotProxy::ScreenShotProxy(QObject *parent):
         QString signal = str.replace(0, 3, str.at(2).toLower());
 
         if (!parentSignals.contains(signal)) {
-            qDebug() << "???";
+            //qDebug() << "???";
             continue;
         }
 
-        QObject::connect(this, qFlagLocation(QString("2" + signal).toLocal8Bit().data()),
-                         m_screenShot, qFlagLocation(QString("1" + slot).toLocal8Bit().data()));
+        qDebug() << "slots" << QObject::connect(this, qFlagLocation(QString("2" + signal).toLocal8Bit().data()),
+                         m_screenShot, qFlagLocation(QString("1" + slot).toLocal8Bit().data())) <<
+                    QString("2" + signal) << "to" << QString("1" + slot);
     }
 
 
@@ -65,10 +71,18 @@ ScreenShotProxy::~ScreenShotProxy()
     delete m_screenShot;
 }
 
-//void ScreenShotProxy::takeScreenshot()
-//{
-//    QMetaObject::invokeMethod(m_screenShot, QString(__FUNCTION__).split("::").at(1).toLocal8Bit().data());
-//}
+void ScreenShotProxy::setName(const QString name)
+{
+    QMetaObject::invokeMethod(m_screenShot, QString(__FUNCTION__).split("::").at(1).toLocal8Bit().data(), Q_ARG(QString, name));
+}
+
+void ScreenShotProxy::setRect(QRect rect)
+{
+    // TODO: sync
+    m_screenShot->setRect(rect);
+
+    //QMetaObject::invokeMethod(m_screenShot, QString(__FUNCTION__).split("::").at(1).toLocal8Bit().data(), Q_ARG(QRect, rect));
+}
 
 QStringList ScreenShotProxy::getMetha(const QObject &obj, QMetaMethod::MethodType type)
 {

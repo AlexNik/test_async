@@ -1,7 +1,9 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
+import QtQuick.Layouts 1.1
 
-import ScreenShotLib 1.0
+//import ScreenShotLib 1.0
+import ScreenshotLib 1.1
 
 ApplicationWindow {
     visible: true
@@ -19,85 +21,144 @@ ApplicationWindow {
         }
     }
 
-    Text {
-        text: qsTr("Hello World")
-        anchors.centerIn: parent
-    }
+//    Text {
+//        text: qsTr("Hello World")
+//        anchors.centerIn: parent
+//    }
 
-    Button {
+//    Button {
 
-        width: 50
-        height: 50
+//        width: 50
+//        height: 50
 
-        text: "ASYNC"
+//        text: "ASYNC"
 
-        onClicked: {
-            screenShotProxy.takeScreenshot()
+//        onClicked: {
+//            //screenShotProxy.takeScreenshot()
+//            screenShot.onTakeScreenshot()
 
-//            qmlThread.start()
-//            qmlThread.myId()
-        }
-
-//        QMLThread {
-//            id: qmlThread
-//        }
-    }
-
-    Rectangle {
-        id: rect
-        width: 100
-        height: 100
-
-        anchors.top: parent.top
-        anchors.topMargin: height
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        color: "red"
-
-        RotationAnimator {
-            id: animator
-            target: rect;
-            from: 0;
-            to: 360;
-            duration: 1000
-            //running: true
-
-            loops: Animation.Infinite;
-
-        }
-
-        Connections {
-            target: screenShotProxy
-
-            onSaveBegin: animator.running = true
-            onSaveEnd: animator.running = false
-        }
-    }
-
-    ProgressBar {
-        id: progressBar
-
-        maximumValue: 100
-        minimumValue: 0
-
-        anchors.centerIn: parent
-
-        value: 50
-
-//        onValueChanged: {
-//            screenShotProxy.setRect(0,0,1920/(value+1), 1080/(value+1))
+////            qmlThread.start()
+////            qmlThread.myId()
 //        }
 
-        Connections {
-            target: screenShotProxy
+////        QMLThread {
+////            id: qmlThread
+////        }
+//    }
 
-            onProgress: progressBar.value = i
-        }
-    }
+
+
+//    ScreenShotProxy {
+//        id: screenShotProxy
+
+//        Component.onCompleted: setRect(0,0,1920,1080)
+//    }
+
+//    Screenshot {
+//        id : screenShot
+
+//        onProgressChanged: console.log(progress)
+//    }
 
     ScreenShotProxy {
         id: screenShotProxy
 
-        Component.onCompleted: setRect(0,0,1920,1080)
+        rect: Qt.rect(0, 0, 1920, 1080)
+
+        onRectChanged: console.log(rect)
+
+        onProgressChanged: {
+            progressBar.value = progress
+
+            rect = Qt.rect(0, 0, 1920 * (progress / 100), 1080 * (progress / 100))
+        }
+
+        Component.onDestruction: stop()
     }
+
+
+
+
+    GridLayout {
+        anchors.fill: parent
+
+        columns: 2
+
+        Button {
+            text: "async"
+
+            onClicked: screenShotProxy.takeScreenshot()
+        }
+
+        ProgressBar {
+            id: progressBar
+
+            maximumValue: 100
+            minimumValue: 0
+
+            value: 0
+
+            onValueChanged: console.log(value)
+        }
+
+        Text {
+            text: "Progress :"
+        }
+
+        Text {
+            text: screenShotProxy.progress
+        }
+
+        Text {
+            text: "File name"
+        }
+
+        Text {
+            text: screenShotProxy.name
+        }
+
+        Text {
+            text: "react size"
+        }
+
+        Text {
+            text: screenShotProxy.rect.toString()
+        }
+
+        Button {
+            text: "terminate"
+
+            onClicked: screenShotProxy.stop()
+        }
+
+        Rectangle {
+            id: rectangle
+            width: 30
+            height: 30
+
+            color: "red"
+
+            RotationAnimator {
+                id: animator
+                target: rectangle;
+                from: 0;
+                to: 360;
+                duration: 1000
+                //running: true
+
+                loops: Animation.Infinite;
+
+            }
+
+            Connections {
+                target: screenShotProxy
+
+                onSaveBegin: animator.running = true
+                onSaveEnd: animator.running = false
+            }
+        }
+    }
+
+
+
 }

@@ -18,4 +18,5 @@ include(deployment.pri)
 HEADERS += \
     ScreenShot.h \
     ScreenShotProxy.h \
-    QMLThread.h
+    QMLThread.h \
+    ScreenshotInterface.h
