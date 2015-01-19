@@ -2,7 +2,6 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 
-//import ScreenShotLib 1.0
 import ScreenshotLib 1.1
 
 ApplicationWindow {
@@ -20,45 +19,6 @@ ApplicationWindow {
             }
         }
     }
-
-//    Text {
-//        text: qsTr("Hello World")
-//        anchors.centerIn: parent
-//    }
-
-//    Button {
-
-//        width: 50
-//        height: 50
-
-//        text: "ASYNC"
-
-//        onClicked: {
-//            //screenShotProxy.takeScreenshot()
-//            screenShot.onTakeScreenshot()
-
-////            qmlThread.start()
-////            qmlThread.myId()
-//        }
-
-////        QMLThread {
-////            id: qmlThread
-////        }
-//    }
-
-
-
-//    ScreenShotProxy {
-//        id: screenShotProxy
-
-//        Component.onCompleted: setRect(0,0,1920,1080)
-//    }
-
-//    Screenshot {
-//        id : screenShot
-
-//        onProgressChanged: console.log(progress)
-//    }
 
     ScreenShotProxy {
         id: screenShotProxy

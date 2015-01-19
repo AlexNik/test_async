@@ -45,7 +45,6 @@ void Screenshot::onTakeScreenshot()
             setName(saveStr);
 
             setProgress(10 * (i + 1));
-            //emit progressChanged(10 * (i + 1));
             qDebug() << progress();
         } else {
             m_continue = true;
@@ -67,14 +66,3 @@ void Screenshot::setProgress(int i)
     m_progress = i;
     emit progressChanged(m_progress);
 }
-
-//void Screenshot::onSetRect(int x, int y, int w, int h)
-//{
-//    qDebug() << "onSetRect" << QThread::currentThreadId();
-//    QMutexLocker lock(&m_mutex);
-
-//    m_screenRect.setX(x);
-//    m_screenRect.setY(y);
-//    m_screenRect.setWidth(w);
-//    m_screenRect.setHeight(h);
-//}
