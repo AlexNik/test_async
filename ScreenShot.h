@@ -12,17 +12,20 @@ class Screenshot: public ScreenshotInterface
 public:
     Screenshot(QObject *parent = 0);
 
-    QString name() const { return m_name; }
-    int progress() const { return m_progress; }
-    QRect rect() const { return m_screenRect; }
+    QString name();
+    int progress();
+    QRect rect();
 
-    void setContinue(bool c) { m_continue = c; }
+    bool isContinue() { QMutexLocker lock(&m_mutex); return m_continue; }
+    void setContinue(bool c) { QMutexLocker lock(&m_mutex); m_continue = c; }
 
 // TODO:
 // Если их перенести в public slots, то будет 2 слота setName ???????
     virtual void setName(const QString name);
-    virtual void onTakeScreenshot();
     virtual void setRect(QRect rect);
+
+    Q_INVOKABLE virtual void takeScreenshot();
+
 public slots:
 
     void xz(){}

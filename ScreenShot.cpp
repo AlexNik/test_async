@@ -14,9 +14,27 @@ Screenshot::Screenshot(QObject *parent) :
 {
 }
 
+QString Screenshot::name()
+{
+    QMutexLocker locker(&m_mutex);
+    return m_name;
+}
+
+int Screenshot::progress()
+{
+    QMutexLocker locker(&m_mutex);
+    return m_progress;
+}
+
+QRect Screenshot::rect()
+{
+    QMutexLocker locker(&m_mutex);
+    return m_screenRect;
+}
+
 void Screenshot::setName(const QString name)
 {
-    //QMutexLocker lock(&m_mutex);
+    QMutexLocker lock(&m_mutex);
 
     if (m_name != name) {
         m_name = name;
@@ -24,7 +42,7 @@ void Screenshot::setName(const QString name)
     }
 }
 
-void Screenshot::onTakeScreenshot()
+void Screenshot::takeScreenshot()
 {
     qDebug() << "Screenshot::onTakeScreenshot()";
 
@@ -36,9 +54,11 @@ void Screenshot::onTakeScreenshot()
     QScreen *screen = QGuiApplication::primaryScreen();
 
     for (int i = 0; i < 10; i++) {
-        if (m_continue) {
-            if (screen)
-                pix = screen->grabWindow(0, m_screenRect.x(), m_screenRect.y(), m_screenRect.width(), m_screenRect.height());
+        if (isContinue()) {
+            if (screen) {
+                QRect rect1 = rect();
+                pix = screen->grabWindow(0, rect1.x(), rect1.y(), rect1.width(), rect1.height());
+            }
 
             QString saveStr = QString("xz_%1.png").arg(i);
             pix.save(saveStr);
@@ -47,7 +67,7 @@ void Screenshot::onTakeScreenshot()
             setProgress(10 * (i + 1));
             qDebug() << progress();
         } else {
-            m_continue = true;
+            setContinue(false);
             break;
         }
     }
@@ -57,12 +77,17 @@ void Screenshot::onTakeScreenshot()
 
 void Screenshot::setRect(QRect rect)
 {
+    QMutexLocker locker(&m_mutex);
     m_screenRect = rect;
+    // TODO: ??
+    //locker.unlock();
+
     emit rectChanged(m_screenRect);
 }
 
 void Screenshot::setProgress(int i)
 {
+    QMutexLocker locker(&m_mutex);
     m_progress = i;
     emit progressChanged(m_progress);
 }

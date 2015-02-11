@@ -24,6 +24,11 @@ class ScreenShotProxy: public ScreenshotInterface
     /// 4*. Получение свойств после обязательной анимации
     ///     (св-во получилось раньше, чем прошла анимация)
     ///
+    ///
+    /// * Подключать свои потоки-бекенды?
+    /// * Доделать мьютексы
+    /// * Переделать на Q_INVOKABLE
+    /// * Найти место в Flipbox, где можно попробовать
 
 
 
@@ -33,15 +38,15 @@ public:
 
     Q_INVOKABLE void stop();
 
-    QString name() const { return m_screenShot->name(); }
-    int progress() const { return m_screenShot->progress(); }
-    QRect rect() const { return m_screenShot->rect(); }
+    QString name() { return m_screenShot->name(); }
+    int progress() { return m_screenShot->progress(); }
+    QRect rect() { return m_screenShot->rect(); }
+
+    Q_INVOKABLE virtual void takeScreenshot();
 
 public slots:
     void setName(const QString name);
     void setRect(QRect rect);
-
-    void onTakeScreenshot() {}
 
 private:
     QStringList getMetha(const QObject &obj, QMetaMethod::MethodType type);

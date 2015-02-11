@@ -84,6 +84,11 @@ void ScreenShotProxy::setRect(QRect rect)
     //QMetaObject::invokeMethod(m_screenShot, QString(__FUNCTION__).split("::").at(1).toLocal8Bit().data(), Q_ARG(QRect, rect));
 }
 
+void ScreenShotProxy::takeScreenshot()
+{
+    QMetaObject::invokeMethod(m_screenShot, QString(__FUNCTION__).split("::").at(1).toLocal8Bit().data());
+}
+
 QStringList ScreenShotProxy::getMetha(const QObject &obj, QMetaMethod::MethodType type)
 {
     QStringList signalsList;

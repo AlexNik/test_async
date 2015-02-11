@@ -14,9 +14,11 @@ class ScreenshotInterface : public QObject
 public:
     ScreenshotInterface(QObject *parent = 0): QObject(parent) {}
 
-    virtual QString name() const = 0;
-    virtual int progress() const = 0;
-    virtual QRect rect() const = 0;
+    virtual QString name() = 0;
+    virtual int progress() = 0;
+    virtual QRect rect() = 0;
+
+    Q_INVOKABLE virtual void takeScreenshot() = 0;
 
 signals:
     void progressChanged(int progress);
@@ -26,14 +28,9 @@ signals:
     void saveBegin();
     void saveEnd();
 
-    void takeScreenshot();
-
-
 public slots:
     virtual void setName(const QString name) = 0;
     virtual void setRect(QRect rect) = 0;
-
-    virtual void onTakeScreenshot() = 0;
 };
 
 #endif // SCREENSHOTINTERFACE_H
