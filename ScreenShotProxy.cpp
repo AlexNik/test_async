@@ -22,40 +22,42 @@ ScreenShotProxy::ScreenShotProxy(QObject *parent):
     parentSignals = getMetha(Screenshot(), QMetaMethod::Signal);
     qobjectslots = getMetha(QObject(), QMetaMethod::Slot);
     parentslots = getMetha(Screenshot(), QMetaMethod::Slot);
-    qDebug() << qobjectsignals;
-    qDebug() << parentSignals;
-    qDebug() << parentslots;
+
+//    qDebug() << qobjectsignals;
+//    qDebug() << parentSignals;
+//    qDebug() << parentslots;
 
 
     foreach (const QString &str, parentSignals) {
         if (qobjectsignals.contains(str))
             continue;
 
-        qDebug() << "signals" << QObject::connect(m_screenShot, QString("2" + str).toLocal8Bit().data(), qFlagLocation(QString("2" + str).toLocal8Bit().data()))
-                 << QString("2" + str);
+        QObject::connect(m_screenShot, QString("2" + str).toLocal8Bit().data(), qFlagLocation(QString("2" + str).toLocal8Bit().data()));
+
+        //qDebug() << "signals" << QString("2" + str);
 
     }
 
-    foreach (QString str, parentslots) {
-        if (qobjectslots.contains(str))
-            continue;
+//    foreach (QString str, parentslots) {
+//        if (qobjectslots.contains(str))
+//            continue;
 
-        if (!str.contains(QRegExp("^on"))) {
-            continue;
-        }
+//        if (!str.contains(QRegExp("^on"))) {
+//            continue;
+//        }
 
-        QString slot = str;
-        QString signal = str.replace(0, 3, str.at(2).toLower());
+//        QString slot = str;
+//        QString signal = str.replace(0, 3, str.at(2).toLower());
 
-        if (!parentSignals.contains(signal)) {
-            //qDebug() << "???";
-            continue;
-        }
+//        if (!parentSignals.contains(signal)) {
+//            //qDebug() << "???";
+//            continue;
+//        }
 
-        qDebug() << "slots" << QObject::connect(this, qFlagLocation(QString("2" + signal).toLocal8Bit().data()),
-                         m_screenShot, qFlagLocation(QString("1" + slot).toLocal8Bit().data())) <<
-                    QString("2" + signal) << "to" << QString("1" + slot);
-    }
+//        qDebug() << "slots" << QObject::connect(this, qFlagLocation(QString("2" + signal).toLocal8Bit().data()),
+//                         m_screenShot, qFlagLocation(QString("1" + slot).toLocal8Bit().data())) <<
+//                    QString("2" + signal) << "to" << QString("1" + slot);
+//    }
 
 
     m_screenShot->moveToThread(m_thread);
@@ -98,10 +100,6 @@ QStringList ScreenShotProxy::getMetha(const QObject &obj, QMetaMethod::MethodTyp
         if (metaObj->method(i).methodType() == type) {
             signalsList.append(metaObj->method(i).methodSignature());
         }
-
-        //        if (metaObj->method(i).methodType() == QMetaMethod::Slot) {
-        //            qDebug() << metaObj->method(i).tag();
-        //        }
     }
 
     return signalsList;

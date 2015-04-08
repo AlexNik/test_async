@@ -19,14 +19,14 @@ public:
     bool isContinue() { QMutexLocker lock(&m_mutex); return m_continue; }
     void setContinue(bool c) { QMutexLocker lock(&m_mutex); m_continue = c; }
 
-// TODO:
-// Если их перенести в public slots, то будет 2 слота setName ???????
-    virtual void setName(const QString name);
-    virtual void setRect(QRect rect);
-
     Q_INVOKABLE virtual void takeScreenshot();
 
 public slots:
+    // TODO:
+    // Возможно будут проблемы, т.к. в метасистеме 2 слота: один от интерфейса, второй отсюда
+    void setName(const QString name);
+    void setRect(QRect rect);
+
 
     void xz(){}
 

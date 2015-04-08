@@ -48,6 +48,8 @@ void Screenshot::takeScreenshot()
 
     emit saveBegin();
 
+    setContinue(true);
+
     QGuiApplication::processEvents();
 
     QPixmap pix;
@@ -79,8 +81,8 @@ void Screenshot::setRect(QRect rect)
 {
     QMutexLocker locker(&m_mutex);
     m_screenRect = rect;
-    // TODO: ??
-    //locker.unlock();
+    // TODO: Вызов напрямую?
+    locker.unlock();
 
     emit rectChanged(m_screenRect);
 }
