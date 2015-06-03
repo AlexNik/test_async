@@ -3,7 +3,13 @@
 #include <QStringList>
 #include <QDebug>
 
-//#include <Qti
+#include <QMetaObject>
+
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+    #define METASTRING(x) x->d.stringdata
+#else
+    #define METASTRING(x) ((char*)x->d.stringdata->data())
+#endif
 
 void ScreenShotProxy::stop()
 {
@@ -11,7 +17,7 @@ void ScreenShotProxy::stop()
 }
 
 ScreenShotProxy::ScreenShotProxy(QObject *parent):
-    ScreenshotInterface(parent)
+    QObject(parent)
 {
     m_screenShot = new Screenshot;
     m_thread = new QThread;
@@ -103,4 +109,32 @@ QStringList ScreenShotProxy::getMetha(const QObject &obj, QMetaMethod::MethodTyp
     }
 
     return signalsList;
+}
+
+
+const QMetaObject *ScreenShotProxy::metaObject() const
+{
+    return QObject::metaObject();
+}
+
+void *ScreenShotProxy::qt_metacast(const char *clname)
+{
+    if (!clname) return 0;
+
+    const QMetaObject *meta = metaObject();
+    while(meta)
+    {
+        if (!strcmp(clname, METASTRING(meta)))
+            return static_cast<void *>(const_cast<ScreenShotProxy *>(this));
+
+        meta = meta->d.superdata;
+    }
+
+    return QObject::qt_metacast(clname);
+}
+
+int ScreenShotProxy::qt_metacall(QMetaObject::Call call, int id, void **arg)
+{
+    //QMetaMethod::
+    return 1;
 }

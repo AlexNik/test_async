@@ -6,6 +6,7 @@
 
 #include <QDebug>
 #include <QThread>
+#include <QMetaMethod>
 
 Screenshot::Screenshot(QObject *parent) :
     ScreenshotInterface(parent),
@@ -76,6 +77,7 @@ void Screenshot::takeScreenshot()
 
     emit saveEnd();
 }
+
 
 void Screenshot::setRect(QRect rect)
 {

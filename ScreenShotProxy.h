@@ -27,9 +27,10 @@
 /// 4) Радоваться)))
 
 
-class ScreenShotProxy: public ScreenshotInterface
+class ScreenShotProxy: public QObject
 {
-    Q_OBJECT
+//    Q_OBJECT_CHECK
+//    QT_TR_FUNCTIONS
 
 public:
     ScreenShotProxy(QObject *parent = 0);
@@ -42,6 +43,10 @@ public:
     QRect rect() { return m_screenShot->rect(); }
 
     Q_INVOKABLE virtual void takeScreenshot();
+
+    virtual const QMetaObject *metaObject() const;
+    virtual void *qt_metacast(const char *clname);
+    virtual int qt_metacall(QMetaObject::Call call, int id, void **args);
 
 public slots:
     void setName(const QString name);
