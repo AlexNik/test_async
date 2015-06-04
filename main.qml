@@ -20,21 +20,32 @@ ApplicationWindow {
         }
     }
 
-    ScreenShotProxy {
-        id: screenShotProxy
+//    ScreenShotProxy {
+//        id: screenShotProxy
 
-        rect: Qt.rect(0, 0, 1920, 1080)
+//        rect: SCProxy.rect(0, 0, 1920, 1080)
 
-        onRectChanged: console.log(rect)
+////        onRectChanged: console.log(rect)
 
-        onProgressChanged: {
-            progressBar.value = progress
+////        onProgressChanged: {
+////            progressBar.value = progress
 
-            rect = Qt.rect(0, 0, 1920 * (progress / 100), 1080 * (progress / 100))
-        }
+////            rect = Qt.rect(0, 0, 1920 * (progress / 100), 1080 * (progress / 100))
+////        }
 
-        Component.onDestruction: stop()
-    }
+////        Component.onDestruction: stop()
+//    }
+
+//    Component.on
+
+//    Connections {
+//        target: SCProxy
+
+//        on
+//    }
+
+    Component.onCompleted: SCProxy.setRect(0, 0, 1920, 1080)
+
 
 
 
@@ -47,7 +58,7 @@ ApplicationWindow {
         Button {
             text: "async"
 
-            onClicked: screenShotProxy.takeScreenshot()
+            onClicked: SCProxy.takeScreenshot()
         }
 
         ProgressBar {
@@ -66,7 +77,7 @@ ApplicationWindow {
         }
 
         Text {
-            text: screenShotProxy.progress
+            text: SCProxy.progress
         }
 
         Text {
@@ -74,7 +85,7 @@ ApplicationWindow {
         }
 
         Text {
-            text: screenShotProxy.name
+            text: SCProxy.name
         }
 
         Text {
@@ -82,13 +93,13 @@ ApplicationWindow {
         }
 
         Text {
-            text: screenShotProxy.rect.toString()
+            text: SCProxy.rect.toString()
         }
 
         Button {
             text: "terminate"
 
-            onClicked: screenShotProxy.stop()
+            onClicked: SCProxy.stop()
         }
 
         Rectangle {
@@ -110,12 +121,12 @@ ApplicationWindow {
 
             }
 
-            Connections {
-                target: screenShotProxy
+//            Connections {
+//                target: screenShotProxy
 
-                onSaveBegin: animator.running = true
-                onSaveEnd: animator.running = false
-            }
+//                onSaveBegin: animator.running = true
+//                onSaveEnd: animator.running = false
+//            }
         }
     }
 

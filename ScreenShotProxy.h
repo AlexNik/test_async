@@ -29,8 +29,8 @@
 
 class ScreenShotProxy: public QObject
 {
-//    Q_OBJECT_CHECK
-//    QT_TR_FUNCTIONS
+    Q_OBJECT_CHECK
+    QT_TR_FUNCTIONS
 
 public:
     ScreenShotProxy(QObject *parent = 0);
@@ -44,9 +44,12 @@ public:
 
     Q_INVOKABLE virtual void takeScreenshot();
 
-    virtual const QMetaObject *metaObject() const;
+    const QMetaObject *metaObject() const override;
     virtual void *qt_metacast(const char *clname);
     virtual int qt_metacall(QMetaObject::Call call, int id, void **args);
+    //static const QMetaObject* metaObject();
+
+    //static const QMetaObject staticMetaObject;
 
 public slots:
     void setName(const QString name);

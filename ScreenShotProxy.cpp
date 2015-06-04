@@ -114,27 +114,31 @@ QStringList ScreenShotProxy::getMetha(const QObject &obj, QMetaMethod::MethodTyp
 
 const QMetaObject *ScreenShotProxy::metaObject() const
 {
-    return QObject::metaObject();
+    qDebug() << m_screenShot->metaObject();
+    return m_screenShot->metaObject();
 }
 
 void *ScreenShotProxy::qt_metacast(const char *clname)
 {
-    if (!clname) return 0;
-
-    const QMetaObject *meta = metaObject();
-    while(meta)
-    {
-        if (!strcmp(clname, METASTRING(meta)))
-            return static_cast<void *>(const_cast<ScreenShotProxy *>(this));
-
-        meta = meta->d.superdata;
-    }
-
-    return QObject::qt_metacast(clname);
+    return m_screenShot->qt_metacast(clname);
 }
 
 int ScreenShotProxy::qt_metacall(QMetaObject::Call call, int id, void **arg)
 {
-    //QMetaMethod::
+    const QMetaObject *mobj = m_screenShot->metaObject();
+    QMetaMethod method = mobj->method(id);
+
+    QByteArrayList args = method.parameterTypes();
+    QGenericArgument genArgs[10];
+
+
+    for (int i = 0; i < args.count(); i++) {
+        QGenericArgument ga(args.at(i), arg[i]);
+        genArgs[i] = ga;
+    }
+
+    bool ok = method.invoke(m_screenShot, genArgs[0], genArgs[1], genArgs[2], genArgs[3], genArgs[4], genArgs[5], genArgs[6],
+             genArgs[7], genArgs[8], genArgs[9]);
+
     return 1;
 }
