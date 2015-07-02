@@ -2,8 +2,6 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.1
 
-import ScreenshotLib 1.1
-
 ApplicationWindow {
     visible: true
     width: 640
@@ -20,31 +18,7 @@ ApplicationWindow {
         }
     }
 
-//    ScreenShotProxy {
-//        id: screenShotProxy
-
-//        rect: SCProxy.rect(0, 0, 1920, 1080)
-
-////        onRectChanged: console.log(rect)
-
-////        onProgressChanged: {
-////            progressBar.value = progress
-
-////            rect = Qt.rect(0, 0, 1920 * (progress / 100), 1080 * (progress / 100))
-////        }
-
-////        Component.onDestruction: stop()
-//    }
-
-//    Component.on
-
-//    Connections {
-//        target: SCProxy
-
-//        on
-//    }
-
-    Component.onCompleted: SCProxy.setRect(0, 0, 1920, 1080)
+    Component.onCompleted: SCProxy.rect = Qt.rect(0, 0, 1920, 1080)
 
 
 
@@ -67,7 +41,7 @@ ApplicationWindow {
             maximumValue: 100
             minimumValue: 0
 
-            value: 0
+            //value: SCProxy.progress
 
             onValueChanged: console.log(value)
         }
@@ -121,12 +95,18 @@ ApplicationWindow {
 
             }
 
-//            Connections {
-//                target: screenShotProxy
+            Connections {
+                target: SCProxy
 
-//                onSaveBegin: animator.running = true
-//                onSaveEnd: animator.running = false
-//            }
+                onSaveBegin: animator.running = true
+                onSaveEnd: animator.running = false
+
+                onProgressChanged: {
+                    progressBar.value = progress
+
+                    SCProxy.rect = Qt.rect(0, 0, 1920 * (progress / 100), 1080 * (progress / 100))
+                }
+            }
         }
     }
 

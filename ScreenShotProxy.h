@@ -36,27 +36,9 @@ public:
     ScreenShotProxy(QObject *parent = 0);
     ~ScreenShotProxy();
 
-    Q_INVOKABLE void stop();
-
-    QString name() { return m_screenShot->name(); }
-    int progress() { return m_screenShot->progress(); }
-    QRect rect() { return m_screenShot->rect(); }
-
-    Q_INVOKABLE virtual void takeScreenshot();
-
     const QMetaObject *metaObject() const override;
     virtual void *qt_metacast(const char *clname);
     virtual int qt_metacall(QMetaObject::Call call, int id, void **args);
-    //static const QMetaObject* metaObject();
-
-    //static const QMetaObject staticMetaObject;
-
-public slots:
-    void setName(const QString name);
-    void setRect(QRect rect);
-
-private:
-    QStringList getMetha(const QObject &obj, QMetaMethod::MethodType type);
 
 private:
     QThread *m_thread;

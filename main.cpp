@@ -9,12 +9,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-
-    qmlRegisterType<Screenshot>("ScreenshotLib", 1, 1, "Screenshot");
-    qmlRegisterType<ScreenShotProxy>("ScreenshotLib", 1, 1, "ScreenShotProxy");
-
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("SCProxy", new ScreenShotProxy());
+    engine.rootContext()->setContextProperty("SCProxy", new ScreenShotProxy);
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 
 
