@@ -43,7 +43,7 @@ ApplicationWindow {
 
             //value: SCProxy.progress
 
-            onValueChanged: console.log(value)
+            //onValueChanged: console.log(value)
         }
 
         Text {
@@ -73,7 +73,7 @@ ApplicationWindow {
         Button {
             text: "terminate"
 
-            onClicked: SCProxy.stop()
+            onClicked: SCProxy.work = false
         }
 
         Rectangle {

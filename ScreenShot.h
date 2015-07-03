@@ -12,20 +12,17 @@ class Screenshot: public QObject
     Q_PROPERTY(int progress READ progress NOTIFY progressChanged)
     Q_PROPERTY(QRect rect READ rect WRITE setRect NOTIFY rectChanged)
 
+    Q_PROPERTY(bool work READ work WRITE setWork NOTIFY workChanged)
 public:
     Screenshot(QObject *parent = 0);
 
     QString name();
     int progress();
     QRect rect();
+    bool work();
 
-    bool isContinue() { QMutexLocker lock(&m_mutex); return m_continue; }
-    void setContinue(bool c) { QMutexLocker lock(&m_mutex); m_continue = c; }
 
     Q_INVOKABLE void takeScreenshot();
-    Q_INVOKABLE void stop();
-
-    int getOne() { return 1; }
 
 signals:
     void progressChanged(int progress);
@@ -34,6 +31,8 @@ signals:
 
     void saveBegin();
     void saveEnd();
+    
+    void workChanged(bool arg);
 
 public slots:
     // TODO:
@@ -41,10 +40,7 @@ public slots:
     void setName(const QString name);
     void setRect(QRect rect);
 
-
-    void xz(){}
-
-    void onSDF() {}
+    void setWork(bool arg);
 
 private:
     void setProgress(int i);
@@ -57,6 +53,7 @@ private:
 
     QMutex m_mutex;
     bool m_continue;
+    bool m_work;
 };
 
 #endif // SCREENSHOT_H
