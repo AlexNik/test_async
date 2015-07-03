@@ -4,11 +4,14 @@
 #include <QObject>
 #include <QRect>
 
-#include "ScreenshotInterface.h"
-
-class Screenshot: public ScreenshotInterface
+class Screenshot: public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(int progress READ progress NOTIFY progressChanged)
+    Q_PROPERTY(QRect rect READ rect WRITE setRect NOTIFY rectChanged)
+
 public:
     Screenshot(QObject *parent = 0);
 
@@ -19,7 +22,18 @@ public:
     bool isContinue() { QMutexLocker lock(&m_mutex); return m_continue; }
     void setContinue(bool c) { QMutexLocker lock(&m_mutex); m_continue = c; }
 
-    Q_INVOKABLE virtual void takeScreenshot();
+    Q_INVOKABLE void takeScreenshot();
+    Q_INVOKABLE void stop();
+
+    int getOne() { return 1; }
+
+signals:
+    void progressChanged(int progress);
+    void nameChanged(QString name);
+    void rectChanged(QRect rect);
+
+    void saveBegin();
+    void saveEnd();
 
 public slots:
     // TODO:

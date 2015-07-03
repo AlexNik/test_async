@@ -16,5 +16,4 @@ include(deployment.pri)
 
 HEADERS += \
     ScreenShot.h \
-    ScreenShotProxy.h \
-    ScreenshotInterface.h
+    ScreenShotProxy.h

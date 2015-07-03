@@ -45,24 +45,24 @@ void *ScreenShotProxy::qt_metacast(const char *clname)
     return m_screenShot->qt_metacast(clname);
 }
 
-int ScreenShotProxy::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int ScreenShotProxy::qt_metacall(QMetaObject::Call call, int id, void **args)
 {
-    if (_c != QMetaObject::InvokeMetaMethod) {
-        int id = m_screenShot->qt_metacall(_c, _id, _a);
-        if (id < 0)
-            return id;
+    if (call != QMetaObject::InvokeMetaMethod) {
+        int tmpId = m_screenShot->qt_metacall(call, id, args);
+        if (tmpId < 0)
+            return tmpId;
     }
 
-    QMetaMethod method = m_screenShot->metaObject()->method(_id);
-    QList<QByteArray> args = method.parameterTypes();
+    QMetaMethod method = m_screenShot->metaObject()->method(id);
+    QList<QByteArray> argsList = method.parameterTypes();
     QGenericArgument genArgs[10];
-    for (int i = 0; i < args.count(); i++) {
-        QGenericArgument ga(args.at(i), _a[i + 1]);
+    for (int i = 0; i < argsList.count(); i++) {
+        QGenericArgument ga(argsList.at(i), args[i + 1]);
         genArgs[i] = ga;
     }
 
     method.invoke(m_screenShot, genArgs[0], genArgs[1], genArgs[2], genArgs[3], genArgs[4], genArgs[5], genArgs[6],
             genArgs[7], genArgs[8], genArgs[9]);
 
-    return _id;
+    return id;
 }

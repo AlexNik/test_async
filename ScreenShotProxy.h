@@ -2,7 +2,6 @@
 #define SCREENSHOTPROXY_H
 
 #include "ScreenShot.h"
-#include "ScreenshotInterface.h"
 
 #include <QThread>
 #include <QMetaMethod>

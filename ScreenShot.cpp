@@ -9,7 +9,7 @@
 #include <QMetaMethod>
 
 Screenshot::Screenshot(QObject *parent) :
-    ScreenshotInterface(parent),
+    QObject(parent),
     m_screenRect(0, 0, 1920, 1080),
     m_progress(0)
 {
@@ -78,6 +78,13 @@ void Screenshot::takeScreenshot()
     }
 
     emit saveEnd();
+}
+
+void Screenshot::stop()
+{
+    qDebug() << "stop";
+    //setContinue(false);
+    m_continue = false;
 }
 
 
