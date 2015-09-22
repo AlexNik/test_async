@@ -14,7 +14,5 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("SCProxy", new QMLThreadProxy<Screenshot>);
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 
-
-
     return app.exec();
 }
