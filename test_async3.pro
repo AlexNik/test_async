@@ -4,7 +4,7 @@ QT += qml quick widgets
 
 SOURCES += main.cpp \
     ScreenShot.cpp \
-    ScreenShotProxy.cpp
+    QMLThreadProxy.cpp
 
 RESOURCES += qml.qrc
 
@@ -16,4 +16,4 @@ include(deployment.pri)
 
 HEADERS += \
     ScreenShot.h \
-    ScreenShotProxy.h
+    QMLThreadProxy.h
