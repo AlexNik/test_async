@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Proxy", new QMLThreadProxy<CopyClass>);
+    engine.rootContext()->setContextProperty("CopyClass", new CopyClass);
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 
     return app.exec();

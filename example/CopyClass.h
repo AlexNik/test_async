@@ -7,13 +7,13 @@ class CopyClass : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(int progress READ progress WRITE setProgress NOTIFY progressChanged)
+    Q_PROPERTY(double progress READ progress WRITE setProgress NOTIFY progressChanged)
     Q_PROPERTY(bool stop READ stop WRITE setStop NOTIFY stopChanged)
 
 public:
     CopyClass(QObject *parent = 0);
 
-    int progress() const { return m_progress; }
+    double progress() const { return m_progress; }
 
     bool stop() const { return m_stop; }
 
@@ -29,10 +29,10 @@ public slots:
     void setStop(bool stop);
 
 private:
-    void setProgress(int progress);
+    void setProgress(double progress);
 
 private:
-    int m_progress;
+    double m_progress;
     bool m_stop;
 };
 

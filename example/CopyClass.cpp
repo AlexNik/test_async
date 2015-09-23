@@ -13,6 +13,7 @@ CopyClass::CopyClass(QObject *parent) : QObject(parent),
 bool CopyClass::copy(QString sourceFile, QString destFolder)
 {
     emit begin();
+
     setProgress(0);
     setStop(false);
 
@@ -27,14 +28,25 @@ bool CopyClass::copy(QString sourceFile, QString destFolder)
     QFile dest(destFolder + "/" + source.fileName().split("/").last());
     dest.open(QIODevice::WriteOnly);
 
-    char buf[1024];
+    char buf;
 
-    int i = 0;
-    int lastItaration = allBytes / 1024 + 1;
-    while(source.read(buf, 1024) && !m_stop) {
+    double i = 0;
+    bool ok;
+
+    while(source.getChar(&buf) && !m_stop) {
         i++;
-        dest.write(buf);
-        setProgress(100 * i / lastItaration);
+        ok = dest.putChar(buf);
+        setProgress(100 * i / allBytes);
+        qDebug() << progress();
+
+        if (!ok) {
+            source.close();
+            dest.close();
+
+            emit end();
+
+            return false;
+        }
     }
 
     source.close();
@@ -54,7 +66,7 @@ void CopyClass::setStop(bool stop)
     emit stopChanged(stop);
 }
 
-void CopyClass::setProgress(int progress)
+void CopyClass::setProgress(double progress)
 {
     if (m_progress == progress)
         return;
