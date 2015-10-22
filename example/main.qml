@@ -76,7 +76,27 @@ ApplicationWindow {
                 text: Proxy.progress.toFixed(2) + " %"
             }
         }
+
+        Image {
+            id: img
+            source: "qrc:///ico"
+
+            RotationAnimation on rotation {
+                id: anim
+                loops: Animation.Infinite
+                from: 0
+                to: 360
+
+                duration: 1000
+                running: false
+            }
+        }
     }
 
+    Connections {
+        target: Proxy
 
+        onBegin: anim.running = true
+        onEnd: anim.running = false
+    }
 }

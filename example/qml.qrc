@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file alias="ico">kobo_glo_sync_icon.jpg</file>
     </qresource>
 </RCC>
