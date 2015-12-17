@@ -37,7 +37,7 @@ bool CopyClass::copy(QString sourceFile, QString destFolder)
         i++;
         ok = dest.putChar(buf);
         setProgress(100 * i / allBytes);
-        qDebug() << progress();
+        Sleep(1);
 
         if (!ok) {
             source.close();

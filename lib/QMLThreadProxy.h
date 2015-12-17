@@ -23,7 +23,7 @@ public:
         for (int i = 0; i < metaObject->methodCount(); i++) {
             if (metaObject->method(i).methodType() == QMetaMethod::Signal) {
                 QString x =  metaObject->method(i).methodSignature();
-                QObject::connect(m_proxy, qFlagLocation(QString("2" + x).toLocal8Bit().data()), this, qFlagLocation(QString("2" + x).toLocal8Bit().data()));
+                QObject::connect(m_proxy, qFlagLocation(QString("2" + x).toLocal8Bit().data()), this, qFlagLocation(QString("2" + x).toLocal8Bit().data()), Qt::QueuedConnection);
             }
         }
 
@@ -66,7 +66,7 @@ public:
             genArgs[i] = ga;
         }
 
-        method.invoke(m_proxy, genArgs[0], genArgs[1], genArgs[2], genArgs[3], genArgs[4], genArgs[5], genArgs[6],
+        method.invoke(m_proxy, Qt::QueuedConnection, genArgs[0], genArgs[1], genArgs[2], genArgs[3], genArgs[4], genArgs[5], genArgs[6],
                 genArgs[7], genArgs[8], genArgs[9]);
 
         return id;
