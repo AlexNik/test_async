@@ -36,8 +36,9 @@ bool CopyClass::copy(QString sourceFile, QString destFolder)
     while(source.getChar(&buf) && !m_stop) {
         i++;
         ok = dest.putChar(buf);
-        setProgress(100 * i / allBytes);
-        Sleep(1);
+
+        if ((int)i % (1024 * 1024) == 0)
+            setProgress(100 * i / allBytes);
 
         if (!ok) {
             source.close();
@@ -51,6 +52,9 @@ bool CopyClass::copy(QString sourceFile, QString destFolder)
 
     source.close();
     dest.close();
+
+    if (!m_stop)
+        setProgress(100);
 
     emit end();
 
